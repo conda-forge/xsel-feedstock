@@ -26,7 +26,6 @@ requirements:
     - automake
     - gettext
     - libtool
-    - gnuconfig
   host:
     - xorg-libxt
     - xorg-libx11
