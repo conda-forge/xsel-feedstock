@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e -x
 
+# Get an updated config.sub and config.guess
+cp ${BUILD_PREFIX}/share/gnuconfig/config.* .
+
 # Cf. https://github.com/conda-forge/staged-recipes/issues/673, we're in the
 # process of excising Libtool files from our packages. Existing ones can break
 # the build while this happens. We have "/." at the end of $PREFIX to be safe
