@@ -1,5 +1,17 @@
 #!/bin/bash
-set -e -x
+
+set -e
+
+configure_args=(
+    --prefix="${PREFIX}"
+    --disable-static
+    --disable-dependency-tracking
+    --disable-selective-werror
+    --disable-silent-rules
+)
+
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/gnuconfig/config.* .
 
 autoreconf_args=(
     --force
@@ -10,24 +22,18 @@ autoreconf_args=(
 )
 autoreconf "${autoreconf_args[@]}"
 
+configure_args+=("--build=${BUILD}")
+
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/share/pkgconfig"
-configure_args=(
-    --prefix="${PREFIX}"
-    --disable-static
-    --disable-debug
-    --disable-dependency-tracking
-    --disable-selective-werror
-    --disable-silent-rules
-)
+
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]] ; then
+    configure_args+=(
+        --enable-malloc0returnsnull
+    )
+fi
 
 ./configure "${configure_args[@]}"
 make -j$CPU_COUNT
 make install
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-make check
-fi
-rm -rf ${PREFIX}/share/man ${PREFIX}/share/doc/${PKG_NAME}
 
-# Remove any new Libtool files we may have installed. It is intended that
-# conda-build will eventually do this automatically.
-find ${PREFIX}/. -name '*.la' -delete
+rm -rf ${PREFIX}/share/man ${PREFIX}/share/doc/${PKG_NAME}
