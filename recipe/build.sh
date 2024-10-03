@@ -10,9 +10,6 @@ configure_args=(
     --disable-silent-rules
 )
 
-# Get an updated config.sub and config.guess
-cp $BUILD_PREFIX/share/gnuconfig/config.* .
-
 autoreconf_args=(
     --force
     --verbose
