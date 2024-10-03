@@ -12,7 +12,6 @@ configure_args=(
 
 autoreconf_args=(
     --force
-    --verbose
     --install
     -I "${PREFIX}/share/aclocal"
     -I "${BUILD_PREFIX}/share/aclocal"
