@@ -9,7 +9,7 @@ source:
   sha256: 18487761f5ca626a036d65ef2db8ad9923bf61685e06e7533676c56d7d60eb14
 
 build:
-  number: 5
+  number: 6
   skip: true  # [win]
   ignore_run_exports:
     - xorg-libxt
