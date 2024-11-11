@@ -32,4 +32,8 @@ fi
 make -j$CPU_COUNT
 make install
 
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
+    make check
+fi
+
 rm -rf ${PREFIX}/share/man ${PREFIX}/share/doc/${PKG_NAME}
